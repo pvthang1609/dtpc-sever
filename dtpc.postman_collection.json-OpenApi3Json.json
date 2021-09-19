@@ -1,0 +1,219 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "dtpc",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:3000",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "login",
+        "operationId": "login",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginrequest"
+              },
+              "example": {
+                "email": "pvthang1609@gmail.com",
+                "password": "thang123"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/get-token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "get-token",
+        "operationId": "get-token",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get-token-request"
+              },
+              "example": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTQ1NjM1OWVhMGY1NTgyMzRlYzFiMzgiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjMyMDE4MDM2LCJleHAiOjE2MzIwMTgwOTZ9.msZpIXkwLSJ8GerhtsR-gGl-U84R6zA-kK35OITpTzk"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/product/create": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "create",
+        "operationId": "create",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createrequest"
+              },
+              "example": {
+                "name": "CPU Intel Core i5-11500 (2.7GHz turbo up to 4.4Ghz, 6 nhân 12 luồng, 12MB Cache, 65W) - LGA 1200",
+                "type": "61456e5f7a080fa13ab68c3f",
+                "brand": "61456ebc7a080fa13ab68c4e",
+                "price": 5899000
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/product/id/6145a6669a284662d106f420": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "get-by-id",
+        "operationId": "get-by-id",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "loginrequest": {
+        "title": "loginrequest",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "pvthang1609@gmail.com",
+          "password": "thang123"
+        }
+      },
+      "get-token-request": {
+        "title": "get-token-request",
+        "required": [
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTQ1NjM1OWVhMGY1NTgyMzRlYzFiMzgiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjMyMDE4MDM2LCJleHAiOjE2MzIwMTgwOTZ9.msZpIXkwLSJ8GerhtsR-gGl-U84R6zA-kK35OITpTzk"
+        }
+      },
+      "createrequest": {
+        "title": "createrequest",
+        "required": [
+          "name",
+          "type",
+          "brand",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "name": "CPU Intel Core i5-11500 (2.7GHz turbo up to 4.4Ghz, 6 nhân 12 luồng, 12MB Cache, 65W) - LGA 1200",
+          "type": "61456e5f7a080fa13ab68c3f",
+          "brand": "61456ebc7a080fa13ab68c4e",
+          "price": 5899000
+        }
+      }
+    },
+    "securitySchemes": {
+      "httpBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "httpBearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth"
+    },
+    {
+      "name": "product"
+    }
+  ]
+}
