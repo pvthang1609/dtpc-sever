@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Response = require("../utils/response");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const { Schema } = mongoose;
 
@@ -13,7 +14,7 @@ const mongoSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    required: true,
+    default: Date.now(),
   },
 });
 
@@ -23,7 +24,6 @@ class BrandClass {
       const newBrand = await this.create({
         name,
         desc,
-        createdAt: Date.now(),
       });
       const result = await newBrand.save();
       return new Response(true, result, null, 200);

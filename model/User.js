@@ -7,14 +7,6 @@ const { Schema } = mongoose;
 const SALT_ROUNDS = 10;
 
 const mongoSchema = new Schema({
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -26,6 +18,14 @@ const mongoSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 
@@ -40,7 +40,6 @@ class UserClass {
         name,
         email,
         password: encryptedPassword,
-        createdAt: Date.now(),
       });
       const result = await newUser.save();
       return new Response(true, result, null, 200);

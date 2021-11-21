@@ -14,14 +14,14 @@ const router = express.Router();
 //-----------------------------------------------------------------------------
 
 // CREATE
-router.post("/create", async (req, res) => {
+router.post("/", async (req, res) => {
   const { name, desc } = req.body;
   const value = await Type.createType(name, desc);
   res.json(value);
 });
 
 // READ: GET_LIST
-router.get("/list", async (req, res) => {
+router.get("/", async (req, res) => {
   const value = await Type.getList();
   res.json(value);
 });

@@ -21,7 +21,7 @@ const authenticateToken = (req, res, next) => {
           );
 
         req.isAdmin = user.isAdmin;
-        console.log(user);
+        req.userId = user._id;
         next();
       } catch (error) {
         return res.json(new Response(false, null, error.message, 401));

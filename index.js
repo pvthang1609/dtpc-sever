@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
+var morgan = require("morgan");
 
 require("dotenv").config();
 
@@ -9,6 +10,8 @@ const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan("tiny"));
 
 const MONGO_URL_LOCAL = process.env.MONGO_URL_LOCAL;
 const OPTION = {

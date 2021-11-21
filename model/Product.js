@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Response = require("../utils/response");
-var ObjectId = require("mongoose").Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
+const Sort = require("../_helpers/enum/sort");
 
 const { Schema } = mongoose;
 
@@ -25,7 +26,7 @@ const mongoSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    required: true,
+    default: Date.now(),
   },
 });
 
@@ -37,7 +38,6 @@ class ProductClass {
         type,
         brand,
         price,
-        createdAt: Date.now(),
       });
       const result = await newProduct.save();
       return new Response(true, result, null, 200);
@@ -46,12 +46,34 @@ class ProductClass {
     }
   }
 
-  static async getList() {
+  static async getList(query) {
+    const { type, brand, sort, page, limit } = query;
+    const typeFilter = type ? { type } : null;
+    const brandFilter = brand ? { brand } : null;
+    const sortFilter = sort ? Sort[sort] : null;
+    const skip = (page - 1) * limit;
+
     try {
-      const products = await this.find({})
+      const products = await this.find({
+        ...typeFilter,
+        ...brandFilter,
+        ...sortFilter,
+      })
         .populate({ path: "type", select: "name" })
-        .populate({ path: "brand", select: "name" });
-      return new Response(true, products, null, 200);
+        .populate({ path: "brand", select: "name" })
+        .skip(skip)
+        .limit(limit);
+      const total = await Product.count();
+
+      const data = {
+        list: products,
+        pagination: {
+          page,
+          pageSize: limit,
+          total,
+        },
+      };
+      return new Response(true, data, null, 200);
     } catch (error) {
       return new Response(false, null, error.message, 503);
     }
@@ -59,7 +81,7 @@ class ProductClass {
 
   static async getById(id) {
     try {
-      const product = await this.findOne({ _id: new ObjectId(id) })
+      const product = await this.findOne({ _id: id })
         .populate({ path: "type", select: "name" })
         .populate({ path: "brand", select: "name" });
       if (!product) new Response(false, null, "Product does not exist", 200);

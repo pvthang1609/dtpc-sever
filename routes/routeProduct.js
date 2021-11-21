@@ -16,7 +16,7 @@ const router = express.Router();
 //-----------------------------------------------------------------------------
 
 // CREATE
-router.post("/create", authenticateToken, async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const { name, type, brand, price } = req.body;
   if (!req.isAdmin)
     return res.json(new Response(false, null, "Unauthorized.", 403));
@@ -25,8 +25,9 @@ router.post("/create", authenticateToken, async (req, res) => {
 });
 
 // READ: GET_LIST
-router.get("/list", async (req, res) => {
-  const value = await Product.getList();
+router.get("/", async (req, res) => {
+  const query = req.query;
+  const value = await Product.getList(query);
   res.json(value);
 });
 
